@@ -8,6 +8,9 @@ def communication():
             sockets, _, _ = select.select([self_tcp_socket, self_udp_socket], [], [])
             if self_tcp_socket in sockets:
                 operation = self_tcp_socket.recv(1)
+                if operation == b'/':
+                    print("You have been disconnected")
+                    return
                 new_client = pickle.loads(self_tcp_socket.recv(1024))
                 if operation == b'N':
                     print(new_client[0], 'has connected to the chat')
@@ -15,9 +18,6 @@ def communication():
                 elif operation == b'L':
                     print(new_client[0], 'has left the chat')
                     other_clients.discard(new_client)
-                elif operation == b'/':
-                    print("You have been disconnected")
-                    return
                 else:
                     print('Unknown operation received')
 

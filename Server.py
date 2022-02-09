@@ -50,8 +50,8 @@ def server():
 
                     for other_client_socket in clients:
                         other_client_socket.send(b'L')
-                        other_client_socket.send(deleted_client[0])
-                        other_client_socket.send(struct.pack("!H", deleted_client[1]))
+                        deleted_client_send = pickle.dumps(deleted_client)
+                        other_client_socket.send(deleted_client_send)
 
 
 
